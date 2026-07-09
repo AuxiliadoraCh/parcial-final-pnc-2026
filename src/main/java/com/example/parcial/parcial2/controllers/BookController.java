@@ -31,8 +31,9 @@ public class BookController {
         return ResponseEntity.ok(bookService.getGenresAvailable());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable UUID id) {
+    @GetMapping
+    public ResponseEntity<Book> getBookById(
+            @RequestParam() UUID id) {
         return ResponseEntity.ok(bookService.getBookById(id));
     }
 
@@ -40,7 +41,7 @@ public class BookController {
     public ResponseEntity<List<Book>> getAllBooks(
             @RequestParam(required = false) String author,
             @RequestParam(required = false) String genre) {
-        return ResponseEntity.ok(bookService.getAllBooks(author, genre));
+        return ResponseEntity.ok(bookService.getAllBooks(author, genre));  // se cambio de PathVarible a Request Param
     }
 
     @PutMapping("/{id}")

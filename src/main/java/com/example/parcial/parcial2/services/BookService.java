@@ -26,7 +26,7 @@ public class BookService {
         Book book = new Book();
         book.setTitle(dto.getTitle());
         book.setAuthor(dto.getAuthor());
-        book.setGenre(Genre.valueOf(dto.getGenre()));
+        book.setGenre(Genre.valueOf(dto.getGenre().toUpperCase()));
         book.setIsbn(dto.getIsbn());
         book.setAvailable(dto.isAvailable());
         book.setAvailableCount(dto.getAvailableCount());
@@ -41,11 +41,13 @@ public class BookService {
 
     public List<Book> getAllBooks(String author, String genre) {
         if (author != null && genre != null) {
-            return bookRepository.findByAuthorAndGenre(genre, author);
+            return bookRepository.findByAuthorAndGenre(author, Genre.valueOf(genre.toUpperCase()));
+            // La funcion esperaba (String author, String genre),
+            // entonces se caambio de orden de (genre, author) -> (author, genre)
         } else if (author != null) {
             return bookRepository.findByAuthor(author);
         } else if (genre != null) {
-            return bookRepository.findByGenre(Genre.valueOf(genre));
+            return bookRepository.findByGenre(Genre.valueOf(genre.toUpperCase()));
         }
         return bookRepository.findAll();
     }

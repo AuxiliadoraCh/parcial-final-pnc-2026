@@ -1,4 +1,4 @@
-# [Nombre] [Carné]
+# Maria Auxiliadora Chinchilla Flores 00156823
 
 ## Indicaciones
 
@@ -26,6 +26,21 @@ Actualmente:
 
 **Instrucción:** Explique la causa del problema y resuélvalo.
 
+En **BookService** :
+
+    return bookRepository.findByAuthorAndGenre(author, Genre.valueOf(genre.toUpperCase()));
+
+      // La funcion esperaba (String author, String genre),
+      // entonces se caambio de orden de (genre, author) -> (author, genre)
+
+      //Igualmente al modificar la funcion en el repositorio, modificamos a -> (author, Genre.valueOf(genre))
+
+      //Tambien agregar .toUpperCase() Para que coincida con los enums que tenemos declarados
+
+
+Y en el **BookRepository** :
+
+    List<Book> findByAuthorAndGenre(String author, Genre genre); // Cambiamos el tipo de dato para que el genero sea del tipo del Enum
 ---
 
 ### 2. Error al volver a prestar un libro (10%)
@@ -54,6 +69,8 @@ GET /books?id=ed16ed1e-7017-4697-a08a-d28c09a74acf
 
 **Instrucción:** Explique la causa del problema.
 
+// Me funciono sin error
+
 ---
 
 ### 5. Error al crear un libro (10%)
@@ -73,6 +90,11 @@ QA ha reportado que el siguiente payload enviado al endpoint `POST /books` provo
 
 **Instrucción:** Explique la causa del problema.
 
+En **BookService** :
+
+    book.setGenre(Genre.valueOf(dto.getGenre().toUpperCase()));
+
+      //Agregamos .toUpperCase() a genre, para que coincida con los enums que tenemos declarados en la funcion createBook(BookRequestDto dto)
 ---
 
 ### 6. Devolución de libros no prestados (20%)
